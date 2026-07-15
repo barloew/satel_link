@@ -14,6 +14,7 @@ without the Satel Integra Panel library.
 
 from __future__ import annotations
 
+import asyncio
 import logging
 
 from homeassistant.config_entries import ConfigEntry
@@ -29,6 +30,13 @@ from .registry_ha import find_base_entry, read_existing
 _LOGGER = logging.getLogger(__name__)
 
 CONF_BASE_ENTRY = "base_entry_id"
+
+# The ETHM integration port serves one client at a time. After the base
+# integration is unloaded (or the discovery socket is closed), the panel needs
+# a moment to release its single slot before the next client connects. Too
+# short and discovery connects while the panel still holds the base's slot,
+# which the panel silently ignores — producing an empty scan.
+SETTLE_SECONDS = 5
 
 
 async def run_discovery(hass: HomeAssistant, entry: ConfigEntry) -> SystemModel:
@@ -58,6 +66,11 @@ async def run_discovery(hass: HomeAssistant, entry: ConfigEntry) -> SystemModel:
             base_was_loaded = await hass.config_entries.async_unload(
                 base_entry.entry_id
             )
+            if base_was_loaded:
+                # Let the panel release the base integration's slot before we
+                # connect as the (now sole) client.
+                _LOGGER.debug("Waiting %ss for the panel to free its slot", SETTLE_SECONDS)
+                await asyncio.sleep(SETTLE_SECONDS)
 
         # 2. Scan.
         result = await discover(host, port, integration_key=code)
@@ -65,6 +78,9 @@ async def run_discovery(hass: HomeAssistant, entry: ConfigEntry) -> SystemModel:
     finally:
         # 3. Always restore the base integration, even if the scan failed.
         if base_entry is not None and base_was_loaded:
+            # Let the discovery socket fully release before the base reconnects,
+            # so the panel does not report "busy".
+            await asyncio.sleep(SETTLE_SECONDS)
             _LOGGER.info("Reloading %s after discovery", base_entry.domain)
             await hass.config_entries.async_setup(base_entry.entry_id)
 

@@ -324,9 +324,10 @@ class AsyncSatel:
             SatelCommand.TRIGGERED_MEM_FIRE:        [lambda msg: self._armed(AlarmState.TRIGGERED_MEM_FIRE, msg)],
         }
 
+        self._sender_task = None
         if loop:
             if not polling_mode:
-                loop.create_task(self.sender_worker())
+                self._sender_task = loop.create_task(self.sender_worker())
         else:
             # loop can be null only during test-cases
             pass
@@ -1177,8 +1178,27 @@ class AsyncSatel:
         """Stop monitoring and close connection."""
         _LOGGER.debug("Closing...")
         self.closed = True
+        if self._sender_task is not None:
+            self._sender_task.cancel()
+            self._sender_task = None
         if self.connected:
             self._writer.close()
+
+    async def aclose(self):
+        """Async teardown: cancel workers and wait for the socket to fully close.
+
+        The ETHM allows only one integration client at a time. A dirty close
+        (writer.close() without waiting) leaves the panel holding the slot until
+        its own inactivity timeout, which blocks the base integration from
+        reconnecting. Awaiting wait_closed() releases the slot promptly.
+        """
+        writer = self._writer
+        self.close()
+        if writer is not None:
+            try:
+                await writer.wait_closed()
+            except Exception:  # noqa: BLE001 - teardown must not raise
+                pass
 
     def add_handler(self, cmd, handler):
         """Add handler for given command."""
