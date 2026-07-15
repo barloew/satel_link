@@ -25,7 +25,6 @@ from homeassistant.components.alarm_control_panel import (
     AlarmControlPanelState,
     CodeFormat,
 )
-from homeassistant.const import STATE_ALARM_DISARMED
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.event import async_track_state_change_event
@@ -96,7 +95,7 @@ class SatelLinkMasterPanel(AlarmControlPanelEntity):
             return False
         for entity_id in entities:
             state = self.hass.states.get(entity_id)
-            if state is not None and state.state != STATE_ALARM_DISARMED:
+            if state is not None and state.state != AlarmControlPanelState.DISARMED:
                 return False
         return True
 

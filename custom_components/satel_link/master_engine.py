@@ -24,13 +24,7 @@ import asyncio
 import logging
 from typing import TYPE_CHECKING
 
-from homeassistant.const import (
-    STATE_ALARM_ARMED_AWAY,
-    STATE_ALARM_ARMED_HOME,
-    STATE_ALARM_ARMED_NIGHT,
-    STATE_ALARM_ARMED_VACATION,
-    STATE_ALARM_DISARMED,
-)
+from homeassistant.components.alarm_control_panel import AlarmControlPanelState
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.event import async_track_state_change_event
 
@@ -46,10 +40,10 @@ ALARM_DOMAIN = "alarm_control_panel"
 CONFIRM_TIMEOUT = 30.0
 
 _ARMED_STATES = {
-    STATE_ALARM_ARMED_AWAY,
-    STATE_ALARM_ARMED_HOME,
-    STATE_ALARM_ARMED_NIGHT,
-    STATE_ALARM_ARMED_VACATION,
+    AlarmControlPanelState.ARMED_AWAY,
+    AlarmControlPanelState.ARMED_HOME,
+    AlarmControlPanelState.ARMED_NIGHT,
+    AlarmControlPanelState.ARMED_VACATION,
 }
 
 

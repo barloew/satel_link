@@ -34,13 +34,8 @@ import logging
 import time
 from typing import TYPE_CHECKING, Callable
 
-from homeassistant.const import (
-    STATE_ALARM_ARMED_AWAY,
-    STATE_ALARM_ARMED_HOME,
-    STATE_ALARM_ARMED_NIGHT,
-    STATE_ALARM_ARMED_VACATION,
-    STATE_ON,
-)
+from homeassistant.components.alarm_control_panel import AlarmControlPanelState
+from homeassistant.const import STATE_ON
 from homeassistant.core import Event, EventStateChangedData, HomeAssistant, callback
 from homeassistant.helpers.event import async_call_later, async_track_state_change_event
 
@@ -53,10 +48,10 @@ if TYPE_CHECKING:
 _LOGGER = logging.getLogger(__name__)
 
 _ARMED_STATES = {
-    STATE_ALARM_ARMED_AWAY,
-    STATE_ALARM_ARMED_HOME,
-    STATE_ALARM_ARMED_NIGHT,
-    STATE_ALARM_ARMED_VACATION,
+    AlarmControlPanelState.ARMED_AWAY,
+    AlarmControlPanelState.ARMED_HOME,
+    AlarmControlPanelState.ARMED_NIGHT,
+    AlarmControlPanelState.ARMED_VACATION,
 }
 
 
