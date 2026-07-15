@@ -1062,12 +1062,27 @@ class AsyncSatel:
                 _LOGGER.debug("Discovered %s %d: '%s' (type=0x%02X)", label, did, name, type_function)
             return found
 
-        _LOGGER.info("Scanning partitions 1..%d", max_partitions)
-        await _scan_type(PARTITION_TYPE, range(1, max_partitions + 1), "partitions", "Partition")
+        # Zones first — type 0x05 returns each zone's name AND its partition
+        # assignment (data[19]). Outputs next. Partitions are deliberately NOT
+        # name-scanned: tested INTEGRA firmware answers 0xEE type 0 (partition
+        # name) with an 0xEF "other error" (result 0x08), so we derive the
+        # partition set from the zones' partition assignment instead — that is
+        # the membership the rest of the integration needs. Skipping the
+        # partition scan also avoids ~1.5 s of timeout per partition.
         _LOGGER.info("Scanning zones 1..%d", max_zones)
         await _scan_type(ZONE_TYPE, range(1, max_zones + 1), "zones", "Zone")
         _LOGGER.info("Scanning outputs 1..%d", max_outputs)
         await _scan_type(OUTPUT_TYPE, range(1, max_outputs + 1), "outputs", "Output")
+
+        for zinfo in discovered["zones"].values():
+            pid = zinfo.get("partition_id") or 0
+            if pid and pid not in discovered["partitions"]:
+                discovered["partitions"][pid] = {
+                    "name": "Partition %d" % pid,
+                    "type_function": 0,
+                    "partition_id": pid,
+                }
+        _LOGGER.info("Derived %d partitions from zone assignments", len(discovered["partitions"]))
 
         _LOGGER.info("Discovery complete: %d zones, %d partitions, %d outputs",
                      len(discovered["zones"]), len(discovered["partitions"]), len(discovered["outputs"]))

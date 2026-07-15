@@ -70,7 +70,7 @@ class DeviceType(IntEnum):
 # queries are dropped silently.
 QUERY_INTERVAL = 0.01
 IDLE_TIMEOUT = 15.0
-DISCOVERY_TIMEOUT = 90.0
+DISCOVERY_TIMEOUT = 240.0
 
 MAX_PARTITIONS = 32
 MAX_ZONES = 128
