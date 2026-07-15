@@ -276,4 +276,4 @@ async def discover(
     try:
         return await SatelDiscovery(client).scan()
     finally:
-        await client.close()
+        client.close()
