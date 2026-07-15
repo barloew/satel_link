@@ -3,9 +3,6 @@
 [![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=barloew&repository=satel_link&category=integration)
 
-[![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=barloew&repository=satel_link&category=integration)
-
 A companion for the Satel Integra Panel. Satel Link links Home Assistant sensors
 into the Satel Integra Panel as real, armed Satel zones, and exposes Satel
 outputs (switches, roller-shutter covers, and read-only statuses) in Home
