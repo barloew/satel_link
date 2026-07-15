@@ -60,7 +60,7 @@
       },
       "discover": {
         "title": "Discover the Satel Integra Panel",
-        "description": "This briefly disconnects the base integration to scan the Satel Integra Panel (the ETHM allows one connection at a time), then reconnects it. Takes under a minute."
+        "description": "This briefly disconnects the base integration to scan the Satel Integra Panel (the ETHM allows one connection at a time), then reconnects it. Takes a minute or two."
       },
       "link": {
         "title": "Link a sensor — choose output",

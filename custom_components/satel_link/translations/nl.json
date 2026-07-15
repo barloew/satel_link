@@ -60,7 +60,7 @@
       },
       "discover": {
         "title": "Satel Integra-centrale ontdekken",
-        "description": "Hiervoor wordt de basisintegratie kort losgekoppeld om de Satel Integra-centrale te scannen (de ETHM staat één verbinding tegelijk toe), daarna weer verbonden. Duurt minder dan een minuut."
+        "description": "Hiervoor wordt de basisintegratie kort losgekoppeld om de Satel Integra-centrale te scannen (de ETHM staat één verbinding tegelijk toe), daarna weer verbonden. Duurt een minuut of twee."
       },
       "link": {
         "title": "Sensor koppelen — kies uitgang",

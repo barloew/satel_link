@@ -1034,131 +1034,43 @@ class AsyncSatel:
                 return discovered
             _LOGGER.info("Reconnected successfully. Starting discovery queries.")
 
-        # Helper: collect DEVICE_INFO responses until idle for IDLE_TIMEOUT seconds.
-        async def _collect_responses(existing: dict) -> None:
-            loop = asyncio.get_event_loop()
-            overall_deadline = loop.time() + OVERALL_TIMEOUT
-            last_response_at = loop.time()
-            while True:
-                now = loop.time()
-                if now - last_response_at >= IDLE_TIMEOUT:
-                    _LOGGER.debug("Idle timeout reached (%.1f s without new response)", now - last_response_at)
-                    break
-                if now >= overall_deadline:
-                    _LOGGER.debug("Overall timeout reached during response collection")
-                    break
-                wait = min(overall_deadline - now, IDLE_TIMEOUT - (now - last_response_at) + 0.05)
-                try:
-                    frame = await asyncio.wait_for(self._read_frame(), timeout=wait)
-                except asyncio.TimeoutError:
-                    break
-                if not frame:
-                    _LOGGER.debug("Connection lost during discovery response collection")
-                    break
-                try:
-                    decoded = SatelMessage.decode_frame(frame)
-                except Exception as e:
-                    _LOGGER.debug("Frame decode error during discovery: %s", e)
-                    continue
-                if decoded is None or decoded.cmd != SatelCommand.DEVICE_INFO:
-                    continue
-                data = decoded.msg_data
-                if len(data) < 19:
-                    continue
-                key = (data[0], data[1])
-                if key not in existing:
-                    existing[key] = data
-                    last_response_at = loop.time()
-
-        responses: dict = {}
-
-        # Phase 1a — send partition + zone queries.
-        # Outputs are sent in a separate batch (Phase 1b) to avoid overflowing
-        # the ETHM command buffer (~160 slots). Sending all 289 queries at once
-        # causes the 128 output queries to be silently dropped.
-        zone_part_queries = (
-            [(PARTITION_TYPE, i) for i in range(0, max_partitions + 1)] +
-            [(ZONE_TYPE,      i) for i in range(1, max_zones + 1)]
-        )
-        _LOGGER.info("Pass 1/2: sending %d partition+zone queries (%d ms apart)...",
-                     len(zone_part_queries), int(QUERY_INTERVAL * 1000))
-        for dtype, did in zone_part_queries:
-            if not self.connected:
-                _LOGGER.warning("Connection lost while sending discovery queries — stopping at (%d, %d)", dtype, did)
-                break
-            msg = SatelMessage(SatelCommand.CMD_DEVICE_INFO, bytearray([dtype, did]))
-            await self._send_frame(msg.encode_frame())
-            await asyncio.sleep(QUERY_INTERVAL)
-
-        # Phase 2a — collect partition + zone responses.
-        _LOGGER.debug("Pass 1/2 queries sent. Collecting responses (idle %.0fs, cap %.0fs)...",
-                      IDLE_TIMEOUT, OVERALL_TIMEOUT)
-        await _collect_responses(responses)
-        _LOGGER.debug("Pass 1/2: %d device-info responses collected", len(responses))
-
-        # Phase 1b — send output queries as a separate batch.
-        if self.connected:
-            output_queries = [(OUTPUT_TYPE, i) for i in range(1, max_outputs + 1)]
-            _LOGGER.info("Pass 2/2: sending %d output queries (%d ms apart)...",
-                         len(output_queries), int(QUERY_INTERVAL * 1000))
-            for dtype, did in output_queries:
+        # The ETHM answers ONE 0xEE query at a time. Firing the whole batch and
+        # then reading overruns it — the panel only answers the last query in the
+        # burst. So query each device synchronously: send one 0xEE, read its
+        # response, then move on. _query_device_direct does exactly that.
+        async def _scan_type(dtype, ids, bucket, label):
+            found = 0
+            for did in ids:
                 if not self.connected:
-                    _LOGGER.warning("Connection lost while sending output queries — stopping at (%d, %d)", dtype, did)
-                    break
-                msg = SatelMessage(SatelCommand.CMD_DEVICE_INFO, bytearray([dtype, did]))
-                await self._send_frame(msg.encode_frame())
-                await asyncio.sleep(QUERY_INTERVAL)
+                    _LOGGER.warning("Connection lost during %s scan at id %d", label, did)
+                    return found
+                info = await self._query_device_direct(dtype, did, timeout=1.5)
+                if info is None:
+                    continue
+                type_function = info["type_function"]
+                name = info["name"]
+                if not name and not type_function:
+                    continue  # unconfigured slot — panel answered with type 0, no name
+                if not name:
+                    name = "%s %d" % (label, did)
+                discovered[bucket][did] = {
+                    "name": name,
+                    "type_function": type_function,
+                    "partition_id": info.get("partition_id", 0),
+                }
+                found += 1
+                _LOGGER.debug("Discovered %s %d: '%s' (type=0x%02X)", label, did, name, type_function)
+            return found
 
-            # Phase 2b — collect output responses.
-            _LOGGER.debug("Pass 2/2 queries sent. Collecting responses (idle %.0fs, cap %.0fs)...",
-                          IDLE_TIMEOUT, OVERALL_TIMEOUT)
-            await _collect_responses(responses)
-            _LOGGER.debug("Pass 2/2: %d device-info responses total", len(responses))
-        else:
-            _LOGGER.warning("Connection lost before output queries — outputs not discovered")
-
-        _LOGGER.debug("Collected %d device-info responses total", len(responses))
-
-        # Phase 3 — decode responses into discovered dict.
-        skipped_zones = {}
-        skipped_outputs = {}
-        for (dtype, did), data in responses.items():
-            type_function = data[2]
-            name = self._decode_satel_name(bytes(data[3:19]))
-            partition_id = data[19] if len(data) > 19 else 0
-
-            if dtype == PARTITION_TYPE:
-                if name:
-                    discovered['partitions'][did] = {'name': name, 'type_function': type_function, 'partition_id': partition_id}
-                    _LOGGER.info("Discovered partition %d: '%s'", did, name)
-                else:
-                    _LOGGER.debug("Partition %d: empty name, skipped", did)
-            elif dtype == ZONE_TYPE:
-                if name or type_function:
-                    if not name:
-                        name = f"Zone {did}"
-                    discovered['zones'][did] = {'name': name, 'type_function': type_function, 'partition_id': partition_id}
-                    _LOGGER.debug("Discovered zone %d: '%s' (type=0x%02X)", did, name, type_function)
-                else:
-                    skipped_zones[did] = type_function
-            elif dtype == OUTPUT_TYPE:
-                if name or type_function:
-                    if not name:
-                        name = f"Output {did}"
-                    discovered['outputs'][did] = {'name': name, 'type_function': type_function, 'partition_id': partition_id}
-                    _LOGGER.debug("Discovered output %d: '%s' (type=0x%02X)", did, name, type_function)
-                else:
-                    skipped_outputs[did] = type_function
-
-        if skipped_zones:
-            _LOGGER.info("Zones with ETHM response but skipped (type=0, no name): %s",
-                         {z: f"0x{t:02X}" for z, t in skipped_zones.items()})
-        if skipped_outputs:
-            _LOGGER.info("Outputs with ETHM response but skipped (type=0, no name): %s",
-                         {o: f"0x{t:02X}" for o, t in skipped_outputs.items()})
+        _LOGGER.info("Scanning partitions 1..%d", max_partitions)
+        await _scan_type(PARTITION_TYPE, range(1, max_partitions + 1), "partitions", "Partition")
+        _LOGGER.info("Scanning zones 1..%d", max_zones)
+        await _scan_type(ZONE_TYPE, range(1, max_zones + 1), "zones", "Zone")
+        _LOGGER.info("Scanning outputs 1..%d", max_outputs)
+        await _scan_type(OUTPUT_TYPE, range(1, max_outputs + 1), "outputs", "Output")
 
         _LOGGER.info("Discovery complete: %d zones, %d partitions, %d outputs",
-                     len(discovered['zones']), len(discovered['partitions']), len(discovered['outputs']))
+                     len(discovered["zones"]), len(discovered["partitions"]), len(discovered["outputs"]))
         return discovered
 
     def set_monitored(self, zones=None, outputs=None, partitions=None):
