@@ -1,0 +1,18 @@
+check_arm:
+  name: Check arm
+  description: >-
+    Active pre-arm check for a partition. Returns the burglary zones that are
+    currently violated and would block arming, and fires the
+    satel_link_arm_blocked event when there are any. Use it before arming to
+    warn or to hold off.
+  fields:
+    partition:
+      name: Partition
+      description: The Satel partition number to check.
+      required: true
+      example: 1
+      selector:
+        number:
+          min: 1
+          max: 32
+          mode: box

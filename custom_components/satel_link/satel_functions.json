@@ -1,0 +1,1273 @@
+{
+ "_meta": {
+  "source_nl": "SATEL INTEGRA Programming Manual NL v1.18 (output functions 5.2, zone functions)",
+  "source_en": "SATEL INTEGRA Programming Manual EN v1.21 (integra_p_en 11/22) - official EN names",
+  "verified": "true = name taken verbatim from the EN programming manual; false = translation pending verification",
+  "polarity": "Output polarity is the DLOADX option POL.+. Enabled = normal polarity (active = +12V / shorted to common). Disabled = inverted. NOT exposed over the integration protocol. Applies to virtual outputs too.",
+  "wiring_type": "Zone wiring type (8 = follow output) is a separate parameter, not the zone function, and NOT exposed over the integration protocol."
+ },
+ "output_functions": {
+  "0": {
+   "nl": "Niet in gebruik",
+   "en": "Not Used",
+   "verified": true,
+   "group": "unused"
+  },
+  "1": {
+   "nl": "Inbraak",
+   "en": "Burglary",
+   "verified": true,
+   "group": "alarm"
+  },
+  "2": {
+   "nl": "Brand / Inbraak",
+   "en": "Fire/Burglary",
+   "verified": true,
+   "group": "alarm"
+  },
+  "3": {
+   "nl": "Brandalarm",
+   "en": "Fire Alarm",
+   "verified": true,
+   "group": "alarm"
+  },
+  "4": {
+   "nl": "Bediendeel alarm",
+   "en": "Keypad Alarm",
+   "verified": true,
+   "group": "alarm"
+  },
+  "5": {
+   "nl": "Brand (van bediendeel)",
+   "en": "Fire (From Keypad)",
+   "verified": true,
+   "group": "alarm"
+  },
+  "6": {
+   "nl": "Paniek (van bediendeel)",
+   "en": "Panic (From Keypad)",
+   "verified": true,
+   "group": "alarm"
+  },
+  "7": {
+   "nl": "Medisch alarm (van bediendeel)",
+   "en": "Medical Alarm (From Keypad)",
+   "verified": true,
+   "group": "alarm"
+  },
+  "8": {
+   "nl": "Sabotage alarm",
+   "en": "Tamper Alarm",
+   "verified": true,
+   "group": "alarm"
+  },
+  "9": {
+   "nl": "Dag alarm",
+   "en": "Day Alarm",
+   "verified": true,
+   "group": "alarm"
+  },
+  "10": {
+   "nl": "Overval alarm",
+   "en": "Duress Alarm",
+   "verified": true,
+   "group": "alarm"
+  },
+  "11": {
+   "nl": "Bel",
+   "en": "Chime",
+   "verified": true,
+   "group": "signaling"
+  },
+  "12": {
+   "nl": "Stil alarm",
+   "en": "Silent Alarm",
+   "verified": true,
+   "group": "alarm"
+  },
+  "13": {
+   "nl": "Technisch alarm",
+   "en": "Technical Alarm",
+   "verified": true,
+   "group": "alarm"
+  },
+  "14": {
+   "nl": "Zone open",
+   "en": "Zone Violation",
+   "verified": true,
+   "group": "status"
+  },
+  "15": {
+   "nl": "Video aan bij uit",
+   "en": "Video On Disarmed",
+   "verified": true,
+   "group": "status"
+  },
+  "16": {
+   "nl": "Video aan bij in",
+   "en": "Video On Armed",
+   "verified": true,
+   "group": "status"
+  },
+  "17": {
+   "nl": "Klaar status",
+   "en": "Ready Status",
+   "verified": true,
+   "group": "status"
+  },
+  "18": {
+   "nl": "Overbrug status",
+   "en": "Bypass Status",
+   "verified": true,
+   "group": "status"
+  },
+  "19": {
+   "nl": "Uitgangsvertraging status",
+   "en": "Exit Delay Status",
+   "verified": true,
+   "group": "status"
+  },
+  "20": {
+   "nl": "Ingangsvertraging status",
+   "en": "Entry Delay Status",
+   "verified": true,
+   "group": "status"
+  },
+  "21": {
+   "nl": "In status",
+   "en": "Armed Status",
+   "verified": true,
+   "group": "status"
+  },
+  "22": {
+   "nl": "Volledige in status",
+   "en": "Full Armed Status",
+   "verified": true,
+   "group": "status"
+  },
+  "23": {
+   "nl": "Inschakel/uitschakel geluiden",
+   "en": "Arm/Disarm Beep",
+   "verified": true,
+   "group": "signaling"
+  },
+  "24": {
+   "nl": "Puls (MONO schakelaar)",
+   "en": "Mono Switch",
+   "verified": true,
+   "group": "switchable"
+  },
+  "25": {
+   "nl": "Maak/breek (BI schakelaar)",
+   "en": "Bi Switch",
+   "verified": true,
+   "group": "switchable"
+  },
+  "26": {
+   "nl": "Schema",
+   "en": "Timer",
+   "verified": true,
+   "group": "control"
+  },
+  "27": {
+   "nl": "Storingen",
+   "en": "Trouble Status",
+   "verified": true,
+   "group": "trouble"
+  },
+  "28": {
+   "nl": "Geen AC (hoofdprint) - direct",
+   "en": "Ac Loss (Mainboard)",
+   "verified": true,
+   "group": "trouble"
+  },
+  "29": {
+   "nl": "Geen AC (technische zone)",
+   "en": "Ac Loss (Technical Zone)",
+   "verified": true,
+   "group": "trouble"
+  },
+  "30": {
+   "nl": "Geen AC (uitbreidingsmodule)",
+   "en": "Ac Loss (Expansion Module)",
+   "verified": true,
+   "group": "trouble"
+  },
+  "31": {
+   "nl": "Accu storing (hoofdprint)",
+   "en": "Battery Trouble (Mainboard)",
+   "verified": true,
+   "group": "trouble"
+  },
+  "32": {
+   "nl": "Accu storing (technische zone)",
+   "en": "Battery Trouble (Technical Zone)",
+   "verified": true,
+   "group": "trouble"
+  },
+  "33": {
+   "nl": "Accu storing (uitbreidingsmodule)",
+   "en": "Battery Trouble (Expansion Module)",
+   "verified": true,
+   "group": "trouble"
+  },
+  "34": {
+   "nl": "Detector storing",
+   "en": "Detector Trouble",
+   "verified": true,
+   "group": "trouble"
+  },
+  "35": {
+   "nl": "Telefoonlijn in gebruik status",
+   "en": "Telephone Line In Use Status",
+   "verified": true,
+   "group": "status"
+  },
+  "36": {
+   "nl": "Ground start",
+   "en": "Ground Start",
+   "verified": true,
+   "group": "control"
+  },
+  "37": {
+   "nl": "Meldkamer bevestiging",
+   "en": "Reporting Acknowledgement",
+   "verified": true,
+   "group": "status"
+  },
+  "38": {
+   "nl": "Service mode status",
+   "en": "Service Mode Status",
+   "verified": true,
+   "group": "status"
+  },
+  "39": {
+   "nl": "Test trildetectoren",
+   "en": "Test Vibration Detectors",
+   "verified": true,
+   "group": "control"
+  },
+  "40": {
+   "nl": "Geldautomaat overbrug status",
+   "en": "Cash Machine Bypass Status",
+   "verified": true,
+   "group": "status"
+  },
+  "41": {
+   "nl": "Voeding",
+   "en": "Power Supply",
+   "verified": true,
+   "group": "power"
+  },
+  "42": {
+   "nl": "Voeding bij in",
+   "en": "Power Supply On Armed",
+   "verified": true,
+   "group": "power"
+  },
+  "43": {
+   "nl": "Reset voeding",
+   "en": "Resetable Power Supply",
+   "verified": true,
+   "group": "power"
+  },
+  "44": {
+   "nl": "Brand detectoren voeding",
+   "en": "Fire Detectors Power Supply",
+   "verified": true,
+   "group": "power"
+  },
+  "45": {
+   "nl": "Blok geblokkeerd status",
+   "en": "Partition Block Status",
+   "verified": true,
+   "group": "status"
+  },
+  "46": {
+   "nl": "Link EN",
+   "en": "Outputs Logical And",
+   "verified": true,
+   "group": "logical"
+  },
+  "47": {
+   "nl": "Link OF",
+   "en": "Outputs Logical Or",
+   "verified": true,
+   "group": "logical"
+  },
+  "48-63": {
+   "nl": "Spraakbericht 1-16",
+   "en": "Voice Message 0...15",
+   "verified": true,
+   "group": "control",
+   "range": [
+    48,
+    63
+   ]
+  },
+  "64-79": {
+   "nl": "Afstandsbediening 1-16 (REMOTE SWITCH)",
+   "en": "Remote Switch 1...16",
+   "verified": true,
+   "group": "switchable",
+   "range": [
+    64,
+    79
+   ]
+  },
+  "80": {
+   "nl": "Geen bewakingsronde",
+   "en": "No Guard Tour",
+   "verified": true,
+   "group": "status"
+  },
+  "81": {
+   "nl": "Geen AC (hoofdprint) - lang",
+   "en": "Ac Loss (Mainboard) - Long",
+   "verified": true,
+   "group": "trouble"
+  },
+  "82": {
+   "nl": "Geen AC (uitbreidingsmodule) - lang",
+   "en": "Ac Loss (Expansion Module) - Long",
+   "verified": true,
+   "group": "trouble"
+  },
+  "83": {
+   "nl": "Uitgangen uit",
+   "en": "Outputs Off",
+   "verified": true,
+   "group": "status"
+  },
+  "84": {
+   "nl": "Code gebruikt & * / #",
+   "en": "Access Code Entering",
+   "verified": true,
+   "group": "status"
+  },
+  "85": {
+   "nl": "Code gebruikt & in/uit",
+   "en": "Use Of Access Code",
+   "verified": true,
+   "group": "status"
+  },
+  "86": {
+   "nl": "Deur is geopend",
+   "en": "Door Open Indicator",
+   "verified": true,
+   "group": "access_control"
+  },
+  "87": {
+   "nl": "Deur is te lang open",
+   "en": "Door Too Long Opened Indicator",
+   "verified": true,
+   "group": "access_control"
+  },
+  "88": {
+   "nl": "Inbraakalarm (geen brand en sabotage)",
+   "en": "Burglary Alarm (No Fire And Tamper)",
+   "verified": true,
+   "group": "alarm"
+  },
+  "89": {
+   "nl": "50% van logboek gevuld",
+   "en": "Event Log 50% Full",
+   "verified": true,
+   "group": "status"
+  },
+  "90": {
+   "nl": "90% van logboek gevuld",
+   "en": "Event Log 90% Full",
+   "verified": true,
+   "group": "status"
+  },
+  "91": {
+   "nl": "Start auto-in vertraging",
+   "en": "Auto-Arm Delay Start",
+   "verified": true,
+   "group": "status"
+  },
+  "92": {
+   "nl": "Auto-in vertraging status",
+   "en": "Auto-Arm Delay Status",
+   "verified": true,
+   "group": "status"
+  },
+  "93": {
+   "nl": "Ongeautoriseerde toegang",
+   "en": "Unauthorized Access",
+   "verified": true,
+   "group": "access_control"
+  },
+  "94": {
+   "nl": "Alarm - ongeautoriseerde toegang",
+   "en": "Alarm",
+   "verified": true,
+   "group": "alarm"
+  },
+  "95": {
+   "nl": "IP rapportage storing",
+   "en": "Ip Reporting Trouble",
+   "verified": true,
+   "group": "trouble"
+  },
+  "96": {
+   "nl": "Telefoonlijn storing (INTEGRA 128-WRL: GSM storingen)",
+   "en": "Telephone Line Trouble",
+   "verified": true,
+   "group": "trouble"
+  },
+  "97": {
+   "nl": "Spraakbericht",
+   "en": "Voice Message",
+   "verified": true,
+   "group": "control"
+  },
+  "98": {
+   "nl": "Afstandsbediening (REMOTE SWITCH)",
+   "en": "Remote Switch",
+   "verified": true,
+   "group": "switchable"
+  },
+  "99": {
+   "nl": "Kaart gelezen van",
+   "en": "Access Card Read",
+   "verified": true,
+   "group": "access_control"
+  },
+  "100": {
+   "nl": "Kaart lang voorhouden",
+   "en": "Card Hold",
+   "verified": true,
+   "group": "access_control"
+  },
+  "101": {
+   "nl": "Kaart lezen - uitbreiding",
+   "en": "Card Read",
+   "verified": true,
+   "group": "access_control"
+  },
+  "102": {
+   "nl": "Link storing - draadloze zone",
+   "en": "Link Trouble",
+   "verified": true,
+   "group": "trouble"
+  },
+  "103": {
+   "nl": "Link storing - draadloze uitgang",
+   "en": "Link Trouble",
+   "verified": true,
+   "group": "trouble"
+  },
+  "104": {
+   "nl": "Lage batterij - draadloos apparaat",
+   "en": "Wireless Device",
+   "verified": true,
+   "group": "trouble"
+  },
+  "105": {
+   "nl": "Rolluik op",
+   "en": "Shutter Up",
+   "verified": true,
+   "group": "switchable"
+  },
+  "106": {
+   "nl": "Rolluik neer",
+   "en": "Shutter Down",
+   "verified": true,
+   "group": "switchable"
+  },
+  "107": {
+   "nl": "Kaart op lezer A",
+   "en": "Card On Reader A",
+   "verified": true,
+   "group": "access_control"
+  },
+  "108": {
+   "nl": "Kaart op lezer B",
+   "en": "Card On Reader B",
+   "verified": true,
+   "group": "access_control"
+  },
+  "109": {
+   "nl": "Zones link EN",
+   "en": "Zones Logical And",
+   "verified": true,
+   "group": "logical"
+  },
+  "110": {
+   "nl": "Alarm - geen verificatie",
+   "en": "Alarm",
+   "verified": true,
+   "group": "alarm"
+  },
+  "111": {
+   "nl": "Alarm - geverifieerd",
+   "en": "Alarm",
+   "verified": true,
+   "group": "alarm"
+  },
+  "112": {
+   "nl": "Geverifieerd - geen alarm",
+   "en": "Verified",
+   "verified": true,
+   "group": "status"
+  },
+  "113": {
+   "nl": "Verificatie uitgeschakeld status",
+   "en": "Verification Disabled Status",
+   "verified": true,
+   "group": "status"
+  },
+  "114": {
+   "nl": "Zone test status",
+   "en": "Zone Test Status",
+   "verified": true,
+   "group": "status"
+  },
+  "115": {
+   "nl": "In type status",
+   "en": "Arming Type Status",
+   "verified": true,
+   "group": "status"
+  },
+  "116": {
+   "nl": "Sirene",
+   "en": "Internal Siren",
+   "verified": true,
+   "group": "alarm"
+  },
+  "117": {
+   "nl": "Sabotage status",
+   "en": "Tampering Status",
+   "verified": true,
+   "group": "status"
+  },
+  "118": {
+   "nl": "Lage batterij handzender",
+   "en": "Keyfob Battery Low",
+   "verified": true,
+   "group": "trouble"
+  },
+  "119": {
+   "nl": "Storing draadloos systeem",
+   "en": "Wireless System Jamming",
+   "verified": true,
+   "group": "trouble"
+  },
+  "120": {
+   "nl": "Thermostaat",
+   "en": "Thermostat",
+   "verified": true,
+   "group": "control"
+  }
+ },
+ "zone_functions": {
+  "0": {
+   "nl": "In/Uit",
+   "en": "Entry/Exit",
+   "verified": true,
+   "group": "delayed"
+  },
+  "1": {
+   "nl": "Ingang",
+   "en": "Entry",
+   "verified": true,
+   "group": "delayed"
+  },
+  "2": {
+   "nl": "Vertraagd",
+   "en": "Delayed",
+   "verified": true,
+   "group": "delayed"
+  },
+  "3": {
+   "nl": "Volgzone",
+   "en": "Interior Delayed",
+   "verified": true,
+   "group": "delayed"
+  },
+  "4": {
+   "nl": "Omtrek",
+   "en": "Perimeter",
+   "verified": true,
+   "group": "burglary"
+  },
+  "5": {
+   "nl": "Inbraak",
+   "en": "Instant",
+   "verified": true,
+   "group": "burglary"
+  },
+  "6": {
+   "nl": "Uitgang",
+   "en": "Exit",
+   "verified": true,
+   "group": "delayed"
+  },
+  "7": {
+   "nl": "Dag/Nacht",
+   "en": "Day/Night",
+   "verified": true,
+   "group": "burglary"
+  },
+  "8": {
+   "nl": "Extern",
+   "en": "Exterior",
+   "verified": true,
+   "group": "burglary"
+  },
+  "9": {
+   "nl": "24u Sabotage",
+   "en": "24H Tamper",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "10": {
+   "nl": "24u Tril",
+   "en": "24H Vibration",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "11": {
+   "nl": "24u Geldautomaat",
+   "en": "24H Cash Machine",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "12": {
+   "nl": "Paniek alarm - luid",
+   "en": "Panic - Audible",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "13": {
+   "nl": "Overval alarm - stil",
+   "en": "Panic - Silent",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "14": {
+   "nl": "Medisch alarm - knop",
+   "en": "Medical - Button",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "15": {
+   "nl": "Persoonlijk medisch alarm",
+   "en": "Personal Emergency",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "16-31": {
+   "nl": "Teller C1-C16",
+   "en": "Counting C1...16",
+   "verified": true,
+   "group": "counter",
+   "range": [
+    16,
+    31
+   ]
+  },
+  "32": {
+   "nl": "24u Brand",
+   "en": "24H Fire",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "33": {
+   "nl": "24u Brand - Rook",
+   "en": "24H Fire - Smoke",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true,
+   "device_class": "smoke"
+  },
+  "34": {
+   "nl": "24u Brand - Verbranding",
+   "en": "24H Fire - Combustion",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "35": {
+   "nl": "24u Brand - Sprinkler",
+   "en": "24H Fire - Water Flow (Fire)",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "36": {
+   "nl": "24u Brand - Hitte",
+   "en": "24H Fire - Heat",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true,
+   "device_class": "heat"
+  },
+  "37": {
+   "nl": "24u Brand - Oven",
+   "en": "24H Fire - Pull Station",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "38": {
+   "nl": "24u Brand - Buis",
+   "en": "24H Fire - Duct",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "39": {
+   "nl": "24u Brand - Vlam",
+   "en": "24H Fire - Flame",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "40": {
+   "nl": "24u Brand storing",
+   "en": "24H Fire Supervisory",
+   "verified": true,
+   "group": "technical",
+   "always_monitored": true
+  },
+  "41": {
+   "nl": "24u Lage waterdruk",
+   "en": "24H Low Water Pressure",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "42": {
+   "nl": "24u Lage CO2",
+   "en": "24H Low CO2",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "43": {
+   "nl": "24u Waterklep sensor",
+   "en": "24H Water Valve Detector",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "44": {
+   "nl": "24u Laag waterniveau",
+   "en": "24H Low Water Level",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "45": {
+   "nl": "24u Pomp geactiveerd",
+   "en": "24H Pump Activated",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "46": {
+   "nl": "24u Pomp storing",
+   "en": "24H Pump Failure",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "47": {
+   "nl": "Geen alarm actie",
+   "en": "No Alarm Action",
+   "verified": true,
+   "group": "technical",
+   "always_monitored": true,
+   "device_class": "problem"
+  },
+  "48": {
+   "nl": "24u Grond detectie",
+   "en": "24H Auxiliary - Protection Loop",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "49": {
+   "nl": "24u Gas detector",
+   "en": "24H Auxiliary - Gas Detector",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true,
+   "device_class": [
+    "gas",
+    "carbon_monoxide"
+   ]
+  },
+  "50": {
+   "nl": "24u Koeling",
+   "en": "24H Auxiliary - Refrigeration",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "51": {
+   "nl": "24u Wegvallen warmte",
+   "en": "24H Auxiliary - Loss Of Heat",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "52": {
+   "nl": "24u Water lekkage",
+   "en": "24H Auxiliary - Water Leakage",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true,
+   "device_class": "moisture"
+  },
+  "53": {
+   "nl": "24u Folie breuk",
+   "en": "24H Auxiliary - Foil Break",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "54": {
+   "nl": "24u Laag gasfles niveau",
+   "en": "24H Auxiliary - Low Bottled Gas Level",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "55": {
+   "nl": "24u Hoge temperatuur",
+   "en": "24H Auxiliary - High Temperature",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "56": {
+   "nl": "24u Lage temperatuur",
+   "en": "24H Auxiliary - Low Temperature",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true,
+   "device_class": "cold"
+  },
+  "57": {
+   "nl": "Technisch - deur is geopend",
+   "en": "Technical - Door Open",
+   "verified": true,
+   "group": "technical"
+  },
+  "58": {
+   "nl": "Technisch - deur schakelaar",
+   "en": "Technical - Door Button",
+   "verified": true,
+   "group": "technical"
+  },
+  "59": {
+   "nl": "Technisch - AC uitval",
+   "en": "Technical - AC Loss",
+   "verified": true,
+   "group": "technical"
+  },
+  "60": {
+   "nl": "Technisch - accu laag",
+   "en": "Technical - Battery Low",
+   "verified": true,
+   "group": "technical"
+  },
+  "61": {
+   "nl": "Technisch - GSM signaal storing",
+   "en": "Technical - GSM Link Trouble",
+   "verified": true,
+   "group": "technical"
+  },
+  "62": {
+   "nl": "Technisch - overbelasting",
+   "en": "Technical - Overload",
+   "verified": true,
+   "group": "technical"
+  },
+  "63": {
+   "nl": "Storing (lokaal)",
+   "en": "Trouble",
+   "verified": true,
+   "group": "technical"
+  },
+  "64-79": {
+   "nl": "Overbrug - groep 1-16",
+   "en": "Bypassing - Group 1-16",
+   "verified": true,
+   "group": "control",
+   "range": [
+    64,
+    79
+   ]
+  },
+  "80": {
+   "nl": "Inschakelen",
+   "en": "Arming",
+   "verified": true,
+   "group": "control"
+  },
+  "81": {
+   "nl": "Uitschakelen",
+   "en": "Disarming",
+   "verified": true,
+   "group": "control"
+  },
+  "82": {
+   "nl": "In/Uitschakelen",
+   "en": "Arm/Disarm",
+   "verified": true,
+   "group": "control"
+  },
+  "83": {
+   "nl": "Alarm herstellen",
+   "en": "Clearing Alarm",
+   "verified": true,
+   "group": "control"
+  },
+  "84": {
+   "nl": "Bewaker",
+   "en": "Guard",
+   "verified": true,
+   "group": "control"
+  },
+  "85": {
+   "nl": "In/Uit - conditioneel",
+   "en": "Entry/Exit - Conditional",
+   "verified": true,
+   "group": "delayed"
+  },
+  "86": {
+   "nl": "In/Uit - laatste",
+   "en": "Entry/Exit - Final",
+   "verified": true,
+   "group": "delayed"
+  },
+  "87": {
+   "nl": "Uitgang - laatste",
+   "en": "Exit - Final",
+   "verified": true,
+   "group": "delayed"
+  },
+  "88": {
+   "nl": "24u Inbraak",
+   "en": "24H Burglary",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "89": {
+   "nl": "Stop uitgangsvertraging",
+   "en": "Finishing Exit Delay",
+   "verified": true,
+   "group": "control"
+  },
+  "90": {
+   "nl": "Stop verificatie",
+   "en": "Disabling Verification",
+   "verified": true,
+   "group": "control"
+  },
+  "91": {
+   "nl": "Anti-mask",
+   "en": "Detector Mask",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "92": {
+   "nl": "Uitgangengroep uit",
+   "en": "Outputs Group Off",
+   "verified": true,
+   "group": "control"
+  },
+  "93": {
+   "nl": "Uitgangengroep aan",
+   "en": "Outputs Group On",
+   "verified": true,
+   "group": "control"
+  },
+  "94": {
+   "nl": "In/Uit mode 2/3",
+   "en": "Entry/Exit Interior",
+   "verified": true,
+   "group": "delayed"
+  },
+  "95": {
+   "nl": "Ingang mode 2/3",
+   "en": "Entry Interior",
+   "verified": true,
+   "group": "delayed"
+  },
+  "96": {
+   "nl": "Brand stil",
+   "en": "Fire Monitoring",
+   "verified": true,
+   "group": "monitored_24h",
+   "always_monitored": true
+  },
+  "97": {
+   "nl": "24u Brand storing",
+   "en": "Fire Panel Fault Monitoring",
+   "verified": true,
+   "group": "technical",
+   "always_monitored": true
+  }
+ },
+ "output_switchable_whitelist": [
+  24,
+  25,
+  98,
+  105,
+  106
+ ],
+ "output_switchable_ranges": [
+  [
+   64,
+   79
+  ]
+ ],
+ "output_switchable_note": "Only these functions can Home Assistant drive. All other outputs are driven by the Satel Integra Panel; a command to them is ignored WITHOUT an error. Whitelist, not a blacklist: an unknown function code is treated as read-only.",
+ "output_capabilities": {
+  "linkable": [
+   24,
+   25
+  ],
+  "linkable_ranges": [],
+  "controllable_switch": [
+   24,
+   25,
+   98
+  ],
+  "controllable_switch_ranges": [
+   [
+    64,
+    79
+   ]
+  ],
+  "cover_up": [
+   105
+  ],
+  "cover_down": [
+   106
+  ],
+  "note": "linkable = usable as a pass-through for a link (sensor -> output -> zone). controllable = worth driving from HA. Roller shutter (105/106) is a consecutive pair, bundled into a single cover entity."
+ },
+ "wiring_types": {
+  "0": {
+   "nl": "Geen detector",
+   "en": "No detector"
+  },
+  "1": {
+   "nl": "NC",
+   "en": "NC"
+  },
+  "2": {
+   "nl": "NO",
+   "en": "NO"
+  },
+  "3": {
+   "nl": "EOL",
+   "en": "EOL"
+  },
+  "4": {
+   "nl": "2EOL/NC",
+   "en": "2EOL/NC"
+  },
+  "5": {
+   "nl": "2EOL/NO",
+   "en": "2EOL/NO"
+  },
+  "6": {
+   "nl": "Rolluik",
+   "en": "Roller"
+  },
+  "7": {
+   "nl": "Trilling",
+   "en": "Vibration"
+  },
+  "8": {
+   "nl": "Volg uitgang",
+   "en": "Follow output",
+   "note": "The zone supports no detector; its status depends solely on the selected output. Physical violations and tampers of the zone are ignored. THE OUTPUT MAY BE VIRTUAL.",
+   "required_for_link": true
+  }
+ },
+ "zone_always_monitored": {
+  "single": [
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50,
+   51,
+   52,
+   53,
+   54,
+   55,
+   56,
+   88,
+   91,
+   96,
+   97
+  ],
+  "note": "Continuously monitored: alarms even when the partition is NOT armed. Required for smoke/CO/gas/water leakage."
+ },
+ "device_class_policy": {
+  "smoke": {
+   "mode": "always",
+   "function": 33,
+   "strict": true
+  },
+  "gas": {
+   "mode": "always",
+   "function": 49,
+   "strict": true
+  },
+  "carbon_monoxide": {
+   "mode": "always",
+   "function": 49,
+   "strict": true,
+   "note": "INTEGRA has no dedicated CO function."
+  },
+  "heat": {
+   "mode": "always",
+   "function": 36,
+   "strict": true,
+   "alt": 55
+  },
+  "moisture": {
+   "mode": "always",
+   "function": 52,
+   "strict": false
+  },
+  "problem": {
+   "mode": "always",
+   "function": 47,
+   "strict": false
+  },
+  "cold": {
+   "mode": "choice",
+   "function": 56,
+   "strict": false
+  },
+  "tamper": {
+   "mode": "choice",
+   "function": 9,
+   "strict": false
+  },
+  "vibration": {
+   "mode": "choice",
+   "function": 10,
+   "strict": false
+  },
+  "safety": {
+   "mode": "choice",
+   "function": 12,
+   "alt": [
+    13,
+    14,
+    15
+   ],
+   "strict": false,
+   "note": "panic/hold-up should be continuously monitored."
+  },
+  "motion": {
+   "mode": "armed_only",
+   "function": null,
+   "strict": false
+  },
+  "occupancy": {
+   "mode": "armed_only",
+   "function": null,
+   "strict": false
+  },
+  "presence": {
+   "mode": "armed_only",
+   "function": null,
+   "strict": false
+  },
+  "moving": {
+   "mode": "armed_only",
+   "function": null,
+   "strict": false
+  },
+  "door": {
+   "mode": "armed_only",
+   "function": null,
+   "strict": false
+  },
+  "window": {
+   "mode": "armed_only",
+   "function": null,
+   "strict": false
+  },
+  "garage_door": {
+   "mode": "armed_only",
+   "function": null,
+   "strict": false
+  },
+  "opening": {
+   "mode": "armed_only",
+   "function": null,
+   "strict": false
+  }
+ },
+ "arming_modes": {
+  "0": {
+   "nl": "Volledig inschakelen",
+   "en": "Full arming",
+   "verified": true
+  },
+  "1": {
+   "nl": "Volledig inschakelen + overbruggingen",
+   "en": "Full arming + bypasses",
+   "verified": true,
+   "note": "zones met 'Overbrugd bij blijven' worden overbrugd"
+  },
+  "2": {
+   "nl": "Inschakelen zonder interieur",
+   "en": "Arming without interior",
+   "verified": true,
+   "note": "zones met functie 3 (Volgzone) worden NIET ingeschakeld; functie 8 (Extern) geeft stil alarm, overige luid"
+  },
+  "3": {
+   "nl": "Inschakelen zonder interieur en zonder ingangsvertraging",
+   "en": "Arming without interior and without entry delay",
+   "verified": true,
+   "note": "als 2, maar vertraagde zones reageren als inbraakzone"
+  }
+ }
+}

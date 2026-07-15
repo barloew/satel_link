@@ -1,0 +1,15 @@
+This directory vendors the satel_integra2 protocol client, bundled with Satel
+Link because the version providing 0xEE device discovery and zone bypass is not
+published on PyPI.
+
+Origin and credit (MIT-licensed at the root):
+
+  wasilukm/satel_integra2        original, published on PyPI (MIT)
+    -> sjauquet/satel_integra2   fork
+    -> alessioburgassi/satel_integra2   fork (added discovery/bypass)
+    -> barloew/satel_integra2    fork used here
+
+The upstream root project is MIT-licensed. This vendored copy is redistributed
+under those terms; see the LICENSE file in this directory. Only the runtime
+client modules are vendored (satel_integra.py, encryption.py, __init__.py); the
+CLI and tests are omitted.

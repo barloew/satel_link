@@ -1,0 +1,144 @@
+{
+  "findings": {
+    "output_not_switchable": "Deze uitgang heeft functie \"{function}\" en is daarmee een Output: de Satel Integra-centrale stuurt hem aan, Home Assistant kan hem alleen uitlezen. Koppelen is niet mogelijk. Kies een uitgang met functie 24 (Puls/MONO) of 25 (Maak/breek/BI), of maak er een aan in DLOADX.",
+    "wiring_not_follow_output": "Deze zone heeft aansluittype \"{wiring}\". Voor een koppeling moet het aansluittype 8 (Volg uitgang) zijn, wijzend naar deze uitgang.",
+    "not_always_monitored": "Een \"{device_class}\"-sensor hoort op een permanent bewaakte zone. Deze zone gebruikt functie \"{function}\" en alarmeert alleen als de partitie is ingeschakeld — bij brand terwijl de partitie is uitgeschakeld (alarmpaneel uit) blijft hij dus stil. Gebruik zonefunctie {expected_number} ({expected}).",
+    "unexpectedly_always_monitored": "Deze zone is permanent bewaakt (\"{function}\"), dus een \"{device_class}\"-sensor geeft ook alarm terwijl de partitie is uitgeschakeld (alarmpaneel uit). Is dat de bedoeling?",
+    "polarity_unverifiable": "Satel Link kan de polariteit (DLOADX-optie POL.+) niet verifiëren omdat Satel Integra die niet beschikbaar stelt. De polariteit moet echter (correct) zijn ingesteld, ook voor virtuele uitgangen. Satel Link controleert hem passief zodra de koppeling actief is."
+  },
+  "checks": {
+    "coherence_ok": "Uitgang inactief en zone in rust: coherent.",
+    "coherence_not_at_rest": "De uitgang staat aan; de coherentiecheck vraagt een ruststand.",
+    "polarity_inverted": "De zone volgt de uitgang, maar omgekeerd.",
+    "not_following": "De zone reageert helemaal niet op de uitgang.",
+    "not_bypassable": "Zone {zone} kon niet worden overbrugd; de test zou dan een echt alarm geven.",
+    "link_ok": "De zone volgt de uitgang correct.",
+    "inconclusive": "Geen eenduidig resultaat."
+  },
+  "remedies": {
+    "fix_polarity": "Zet de POL.+ optie van de uitgang goed in DLOADX, of schakel \"Inverteren\" in op deze koppeling.",
+    "set_wiring_follow_output": "Zet in DLOADX het aansluittype van zone {zone} op 8 (Volg uitgang) en laat hem uitgang {output} volgen.",
+    "allow_bypass": "Schakel in DLOADX de optie \"Niet overbrugbaar\" uit voor deze zone."
+  },
+  "forwarding": {
+    "always": "Permanent bewaakt — de status van deze zone wordt ononderbroken door Satel Integra bewaakt en genereert ook een alarm bij schending als de partitie niet is ingeschakeld. Bedoeld voor rook, CO, gas en waterlekkage.",
+    "armed_only": "Alleen als ingeschakeld — de status wordt alleen doorgegeven zolang de partitie waartoe deze zone behoort is ingeschakeld. Bedoeld voor beweging, aanwezigheid, deuren en ramen, die geen alarm mogen veroorzaken bij schending terwijl ze wel in Home Assistant worden bewaakt maar niet in Satel Integra zijn ingeschakeld.",
+    "entry_delay": "Met ingangsvertraging — bij inschakeling van de partitie start de door Satel Link gecontroleerde ingangsvertraging van de statusdoorgifte. Tijdige uitschakeling voorkomt het alarm."
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "Satel Link",
+        "description": "Er is een {base_domain}-integratie gevonden op {host} met {zones} zones en {outputs} uitgangen. Satel Link bouwt hierop voort.\n\nKies verzenden om door te gaan."
+      },
+      "manual": {
+        "title": "Verbinden met de Satel Integra-centrale",
+        "description": "Geen Satel-basisintegratie gevonden. Voer de ETHM-verbindingsgegevens in.",
+        "data": {
+          "host": "Host",
+          "port": "Poort",
+          "code": "Gebruikerscode (alleen nodig voor switchable outputs)"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Satel Link is al geconfigureerd voor deze Satel Integra-centrale."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Satel Link",
+        "description": "Wat wil je doen?",
+        "menu_options": {
+          "discover": "Verbinden & ontdekken",
+          "link": "Een HA-sensor koppelen aan een Satel-zone",
+          "control": "Een Satel-uitgang bedienen vanuit HA",
+          "settings": "Instellingen breach-terugblik",
+          "master": "Master-alarmpaneel"
+        }
+      },
+      "discover": {
+        "title": "Satel Integra-centrale ontdekken",
+        "description": "Hiervoor wordt de basisintegratie kort losgekoppeld om de Satel Integra-centrale te scannen (de ETHM staat één verbinding tegelijk toe), daarna weer verbonden. Duurt minder dan een minuut."
+      },
+      "link": {
+        "title": "Sensor koppelen — kies uitgang",
+        "description": "Kies de schakelbare uitgang die de koppeling aanstuurt. De Satel-zone die deze uitgang volgt, wordt de gekoppelde detectie."
+      },
+      "link_target": {
+        "title": "Sensor koppelen — bron en zone",
+        "description": "Uitgang {output}: kies de Home Assistant-sensor om te koppelen, en de zone die deze uitgang volgt.",
+        "data": {
+          "source": "Home Assistant-sensor",
+          "zone": "Zone die de uitgang volgt"
+        }
+      },
+      "link_verify": {
+        "title": "Sensor koppelen — controle",
+        "description": "{findings}",
+        "data": {
+          "forwarding": "Wanneer de status doorgeven",
+          "entry_delay_s": "Ingangsvertraging (seconden) — houd een schending zo lang vast voordat je doorgeeft (alleen bij ingangsvertraging-doorgifte)",
+          "min_on_s": "Minimale aan-tijd (seconden) — houd de uitgang minstens zo lang aan, voor korte pulsen",
+          "invert": "Inverteren — de polariteit van de uitgang is omgekeerd (zie de opmerking hierboven)"
+        }
+      },
+      "control": {
+        "title": "Uitgang bedienen",
+        "description": "Kies een Satel-uitgang om in Home Assistant beschikbaar te maken. Aanstuurbare uitgangen worden switches, rolluik-paren worden één cover, en read-only uitgangen worden binaire sensoren.",
+        "data": {
+          "output": "Uitgang"
+        }
+      },
+      "settings": {
+        "title": "Breach-terugblik",
+        "description": "Als een partitie wordt getriggerd, rapporteert de breach-momentopname elke zone die in de laatste seconden geschonden was. Stel dat venster hier in — systeem-breed, en optioneel per partitie (laat leeg om de systeem-brede waarde te gebruiken).",
+        "data": {
+          "breach_lookback_s": "Terugblik-venster (seconden)"
+        }
+      },
+      "master": {
+        "title": "Master-paneel",
+        "description": "Één tegel die meerdere partities als geheel inschakelt. Voer de partities in inschakelvolgorde in (bijvoorbeeld interieur vóór omtrek), gescheiden door komma's. Beschikbare partities: {partitions}.\n\nThuis schakelt in met de arm-home-service van de basisintegratie (jouw Satel arm_home_mode); afwezig en nacht schakelen volledig in.",
+        "data": {
+          "name": "Naam",
+          "partitions": "Partities, in inschakelvolgorde"
+        }
+      }
+    },
+    "error": {
+      "discovery_failed": "Kon de Satel Integra-centrale niet scannen. Controleer of de basisintegratie verbonden is en dat geen andere client de integratiepoort bezet.",
+      "link_has_errors": "Deze koppeling kan nog niet worden aangemaakt — zie de problemen hierboven.",
+      "invalid_partitions": "Voer één of meer bekende partitienummers in, gescheiden door komma's, in inschakelvolgorde."
+    },
+    "abort": {
+      "not_yet_implemented": "Deze stap is nog niet beschikbaar.",
+      "run_discovery_first": "Voer eerst “Verbinden & ontdekken” uit, zodat Satel Link je Satel Integra-centrale kent.",
+      "no_linkable_outputs": "Geen koppelbare uitgangen gevonden. Voeg in DLOADX een MONO- of BI-uitgang toe en ontdek opnieuw.",
+      "no_controllable_outputs": "Geen bedienbare uitgangen gevonden.",
+      "no_partitions": "Geen partities ontdekt. Voer eerst “Verbinden & ontdekken” uit."
+    }
+  },
+  "selector": {
+    "forwarding": {
+      "options": {
+        "always": "Permanent bewaakt (rook, CO, gas, water)",
+        "armed_only": "Alleen als de partitie is ingeschakeld (beweging, deuren, ramen)",
+        "entry_delay": "Met ingangsvertraging"
+      }
+    }
+  },
+  "services": {
+    "check_arm": {
+      "name": "Inschakeling controleren",
+      "description": "Actieve controle vóór inschakeling van een partitie. Geeft de inbraakzones terug die op dit moment geschonden zijn en de inschakeling zouden blokkeren, en vuurt het satel_link_arm_blocked-event als die er zijn.",
+      "fields": {
+        "partition": {
+          "name": "Partitie",
+          "description": "Het Satel-partitienummer om te controleren."
+        }
+      }
+    }
+  }
+}

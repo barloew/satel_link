@@ -1,0 +1,118 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Satel Link",
+        "description": "Found a {base_domain} integration at {host} with {zones} zones and {outputs} outputs. Satel Link will build on it.\n\nSelect submit to continue."
+      },
+      "manual": {
+        "title": "Connect to the Satel Integra Panel",
+        "description": "No Satel base integration was found. Enter the ETHM connection details.",
+        "data": {
+          "host": "Host",
+          "port": "Port",
+          "code": "User code (only needed for switchable outputs)"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Satel Link is already configured for this Satel Integra Panel."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Satel Link",
+        "description": "What would you like to do?",
+        "menu_options": {
+          "discover": "Connect & discover",
+          "link": "Link an HA sensor to a Satel zone",
+          "control": "Control a Satel output from HA",
+          "settings": "Breach lookback settings",
+          "master": "Master alarm panel"
+        }
+      },
+      "discover": {
+        "title": "Discover the Satel Integra Panel",
+        "description": "This briefly disconnects the base integration to scan the Satel Integra Panel (the ETHM allows one connection at a time), then reconnects it. Takes under a minute."
+      },
+      "link": {
+        "title": "Link a sensor — choose output",
+        "description": "Choose the switchable output the link will drive. The Satel zone that follows this output becomes the linked detection."
+      },
+      "link_target": {
+        "title": "Link a sensor — source and zone",
+        "description": "Output {output}: choose the Home Assistant sensor to link, and the zone that follows this output.",
+        "data": {
+          "source": "Home Assistant sensor",
+          "zone": "Zone that follows the output"
+        }
+      },
+      "link_verify": {
+        "title": "Link a sensor — review",
+        "description": "{findings}",
+        "data": {
+          "forwarding": "When to forward the state",
+          "entry_delay_s": "Entry delay (seconds) — hold a violation this long before forwarding (entry-delay forwarding only)",
+          "min_on_s": "Minimum on-time (seconds) — keep the output on at least this long, for brief pulses",
+          "invert": "Invert — the output's polarity is reversed (see the note above)"
+        }
+      },
+      "control": {
+        "title": "Control an output",
+        "description": "Choose a Satel output to expose in Home Assistant. Controllable outputs become switches, roller-shutter pairs become one cover, and read-only outputs become binary sensors.",
+        "data": {
+          "output": "Output"
+        }
+      },
+      "settings": {
+        "title": "Breach lookback",
+        "description": "When a partition is triggered, the breach snapshot reports every zone violated in the last few seconds. Set that window here — system-wide, and optionally per partition (leave blank to use the system-wide value).",
+        "data": {
+          "breach_lookback_s": "Lookback window (seconds)"
+        }
+      },
+      "master": {
+        "title": "Master panel",
+        "description": "One tile that arms several partitions as a unit. Enter the partitions in arm order (for example interior before perimeter), comma-separated. Available partitions: {partitions}.\n\nHome arms with the base arm-home service (your Satel arm_home_mode); away and night arm fully.",
+        "data": {
+          "name": "Name",
+          "partitions": "Partitions, in arm order"
+        }
+      }
+    },
+    "error": {
+      "discovery_failed": "Could not scan the Satel Integra Panel. Check that the base integration is connected and that no other client holds the integration port.",
+      "link_has_errors": "This link cannot be created yet — see the problems above.",
+      "invalid_partitions": "Enter one or more known partition numbers, comma-separated, in arm order."
+    },
+    "abort": {
+      "not_yet_implemented": "This step is not available yet.",
+      "run_discovery_first": "Run “Connect & discover” first, so Satel Link knows your Satel Integra Panel.",
+      "no_linkable_outputs": "No linkable outputs were found. Add a MONO or BI output in DLOADX, then discover again.",
+      "no_controllable_outputs": "No controllable outputs were found.",
+      "no_partitions": "No partitions were discovered. Run “Connect & discover” first."
+    }
+  },
+  "selector": {
+    "forwarding": {
+      "options": {
+        "always": "Continuously monitored (smoke, CO, gas, water)",
+        "armed_only": "Only while the partition is armed (motion, doors, windows)",
+        "entry_delay": "With entry delay"
+      }
+    }
+  },
+  "services": {
+    "check_arm": {
+      "name": "Check arm",
+      "description": "Active pre-arm check for a partition. Returns the burglary zones that are currently violated and would block arming, and fires the satel_link_arm_blocked event when there are any.",
+      "fields": {
+        "partition": {
+          "name": "Partition",
+          "description": "The Satel partition number to check."
+        }
+      }
+    }
+  }
+}
